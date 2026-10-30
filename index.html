@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PINCH NetBrowse</title>
+    <style>
+        /* --- Classic Fonts & Reset --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #FFFFFF;
+            color: #000000;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        a {
+            color: #0000EE;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        a:hover {
+            color: #FF0000;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            border-left: 1px solid #CCCCCC;
+            border-right: 1px solid #CCCCCC;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Site Header --- */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 2px solid #000080;
+        }
+        .site-logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #000080;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: "Times New Roman", Times, serif;
+        }
+        .site-logo span {
+            color: #087E8B; /* PINCH Accent */
+        }
+        .logo-graphic {
+            width: 45px;
+            height: 45px;
+            background-color: #087E8B;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .header-right {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 18px;
+            font-weight: bold;
+            color: #000000;
+        }
+
+        /* --- Top Navigation --- */
+        .header-nav {
+            background-color: #000080;
+            color: white;
+            padding: 6px 20px;
+            font-size: 11px;
+            font-family: Arial, sans-serif;
+        }
+        .header-nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        .header-nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Main Layout Table --- */
+        .main-table {
+            width: 100%;
+            border-collapse: collapse;
+            flex: 1;
+        }
+        .sidebar {
+            width: 180px;
+            background-color: #E6F2F4; /* Classic Light Blue */
+            border-right: 1px solid #000080;
+            vertical-align: top;
+            padding: 15px;
+            font-size: 12px;
+        }
+        .sidebar h3 {
+            font-size: 12px;
+            color: #000080;
+            margin-top: 0;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #000080;
+            padding-bottom: 2px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+        .sidebar li {
+            margin-bottom: 6px;
+        }
+
+        .content {
+            vertical-align: top;
+            padding: 20px 30px;
+        }
+
+        /* --- Banner Area --- */
+        .banner-area {
+            display: flex;
+            margin-bottom: 25px;
+        }
+        .banner-graphic {
+            width: 100px;
+            height: 100px;
+            background-color: #F0F0F0;
+            border: 1px solid #000080;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 50px;
+            font-weight: bold;
+            color: #000080;
+            text-shadow: 2px 2px 0px #FFF, 4px 4px 0px #CCC;
+            margin-right: 20px;
+            font-family: "Times New Roman", serif;
+        }
+        .banner-text h1 {
+            color: #000080;
+            font-size: 22px;
+            margin-bottom: 10px;
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        /* --- Grid Columns --- */
+        .three-cols {
+            display: table;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 15px 0;
+            margin-left: -15px;
+        }
+        .col {
+            display: table-cell;
+            width: 33%;
+            vertical-align: top;
+        }
+        .col h3 {
+            color: #000080;
+            font-size: 14px;
+            margin-bottom: 8px;
+            border-bottom: 1px dotted #000080;
+            padding-bottom: 3px;
+        }
+        .col ul {
+            margin-left: 15px;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        /* Highlights Box */
+        .highlights-box {
+            background-color: #E6F2F4;
+            padding: 15px;
+            border: 1px solid #000080;
+            margin-top: 15px;
+        }
+        .highlights-box h3 {
+            margin-top: 0;
+            color: #000080;
+            font-size: 14px;
+            margin-bottom: 10px;
+            border: none;
+        }
+        .btn-download {
+            display: inline-block;
+            background-color: #000080;
+            color: white;
+            padding: 6px 15px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            border-top: 2px solid #4A4AFF;
+            border-left: 2px solid #4A4AFF;
+            border-bottom: 2px solid #000000;
+            border-right: 2px solid #000000;
+        }
+        .btn-download:hover {
+            background-color: #0000AA;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            font-size: 11px;
+            color: #666;
+            padding: 20px;
+            border-top: 1px solid #CCCCCC;
+            background-color: #F9F9F9;
+            text-align: left;
+        }
+
+        /* --- Page Switching Logic --- */
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Site Header -->
+        <div class="site-header">
+            <div class="site-logo">
+                <div class="logo-graphic">P</div>
+                PINCH <span>NetBrowse</span>
+            </div>
+            <div class="header-right">
+                PINCH®
+            </div>
+        </div>
+        
+        <!-- Top Navigation -->
+        <div class="header-nav">
+            <a onclick="showPage('home')">Home</a> | 
+            <a onclick="showPage('features')">Features</a> | 
+            <a onclick="showPage('download')">Download</a> | 
+            <a onclick="showPage('releasenotes')">Release Notes</a> | 
+            <a onclick="showPage('security')">Security</a> | 
+            <a onclick="showPage('support')">Support</a>
+        </div>
+
+        <!-- Main Layout -->
+        <table class="main-table">
+            <tr>
+                <!-- Sidebar -->
+                <td class="sidebar">
+                    <h3>PINCH NetBrowse 1.0</h3>
+                    <ul>
+                        <li><a onclick="showPage('home')">Browser Home Page</a></li>
+                        <li><a onclick="showPage('features')">Features</a></li>
+                        <li><a onclick="showPage('features')">Web Accessories</a></li>
+                        <li><a onclick="showPage('releasenotes')">Reviews</a></li>
+                        <li><a onclick="showPage('download')">System Requirements</a></li>
+                        <li><a onclick="showPage('about')">Business</a></li>
+                        <li><a onclick="showPage('about')">Developers</a></li>
+                    </ul>
+                    <h3>Internet Service</h3>
+                    <ul>
+                        <li><a onclick="showPage('home')">International Sites</a></li>
+                        <li><a onclick="showPage('security')">Security Advisor</a></li>
+                    </ul>
+                    <h3>Tell us what you think</h3>
+                    <ul>
+                        <li><a onclick="showPage('about')">About PINCH NetBrowse</a></li>
+                    </ul>
+                </td>
+
+                <!-- Content Area -->
+                <td class="content">
+                    
+                    <!-- ================= HOME PAGE ================= -->
+                    <div id="page-home" class="page active">
+                        <div class="banner-area">
+                            <div class="banner-graphic">1.0</div>
+                            <div class="banner-text">
+                                <h1>It works faster to save you time</h1>
+                                <p>Welcome to PINCH NetBrowse, the first release of the browser project developed as part of the PINCH software ecosystem. Experience a classic Windows-inspired browsing experience combined with a modern interface.</p>
+                            </div>
+                        </div>
+
+                        <div class="three-cols">
+                            <div class="col">
+                                <h3>New to the Net?</h3>
+                                <p>PINCH NetBrowse aims to bring a classic Windows-inspired browsing experience together with a modern interface.</p>
+                                <ul>
+                                    <li>Initial UI Established</li>
+                                    <li>Classic Windows Design</li>
+                                    <li>Modern Browsing Core</li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <h3>Web enthusiast?</h3>
+                                <p>This is the initial release of the project. The foundation has been prepared for future browser features and improvements.</p>
+                                <ul>
+                                    <li>Planned Ad Blocking</li>
+                                    <li>Planned Privacy Controls</li>
+                                    <li>Planned Custom New Tab</li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <h3>Building a business?</h3>
+                                <p>Compatibility and stability depend on the current implementation. Future releases will focus on improving the browsing experience and adding requested features.</p>
+                                <div class="highlights-box">
+                                    <h3>Today's Highlights</h3>
+                                    <ul>
+                                        <li>Version 1.0.0 is here!</li>
+                                        <li>Initial Release</li>
+                                        <li>Foundation for the future</li>
+                                    </ul>
+                                    <a href="https://github.com/jamescarlocadayona-art/netbrowse/releases/tag/browser" target="_blank" class="btn-download">Download Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================= FEATURES PAGE ================= -->
+                    <div id="page-features" class="page">
+                        <div class="banner-area">
+                            <div class="banner-graphic">🔧</div>
+                            <div class="banner-text">
+                                <h1>Features &amp; Web Accessories</h1>
+                                <p>Discover what is currently implemented and what is planned for future versions.</p>
+                            </div>
+                        </div>
+                        <div class="three-cols">
+                            <div class="col">
+                                <h3>Implemented Features</h3>
+                                <ul>
+                                    <li><b>Initial User Interface:</b> Established the browser's initial UI and project structure.</li>
+                                    <li><b>Classic Design:</b> Began development of a modern browsing experience inspired by classic Windows design.</li>
+                                    <li><b>Project Foundation:</b> Prepared the foundation for future browser features and improvements.</li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <h3>Planned Features</h3>
+                                <ul>
+                                    <li>Ad blocking support.</li>
+                                    <li>Improved browsing security and privacy controls.</li>
+                                    <li>Customizable new tab page.</li>
+                                    <li>Error pages for unavailable websites and connection failures.</li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <h3>Future Roadmap</h3>
+                                <ul>
+                                    <li>Media playback support.</li>
+                                    <li>Additional interface customization.</li>
+                                    <li>Further performance and stability improvements.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================= DOWNLOAD PAGE ================= -->
+                    <div id="page-download" class="page">
+                        <div class="banner-area">
+                            <div class="banner-graphic">💾</div>
+                            <div class="banner-text">
+                                <h1>Download PINCH NetBrowse</h1>
+                                <p>Get the latest version of the browser from our GitHub Releases.</p>
+                            </div>
+                        </div>
+                        <div class="highlights-box" style="max-width: 600px;">
+                            <h3>Current Version: 1.0.0 (Pre-release)</h3>
+                            <p><b>Release Type:</b> Initial Release</p>
+                            <p><b>Status:</b> Pre-release</p>
+                            <p><b>Source:</b> GitHub Releases</p>
+                            <br>
+                            <a href="https://github.com/jamescarlocadayona-art/netbrowse/releases/tag/browser" target="_blank" class="btn-download">Download from GitHub</a>
+                        </div>
+                        <br>
+                        <h3 style="color:#000080; margin-bottom:10px;">Important Notes</h3>
+                        <ul>
+                            <li>This is the initial release of the project.</li>
+                            <li>Features may be incomplete or subject to change.</li>
+                            <li>Compatibility and stability depend on the current implementation.</li>
+                            <li>Do not use this release to store sensitive information unless the relevant security features have been implemented and tested.</li>
+                        </ul>
+                    </div>
+
+                    <!-- ================= RELEASE NOTES PAGE ================= -->
+                    <div id="page-releasenotes" class="page">
+                        <div class="banner-area">
+                            <div class="banner-graphic">📜</div>
+                            <div class="banner-text">
+                                <h1>Release Notes</h1>
+                                <div style="font-size: 11px; color: #666; margin-bottom: 10px;">Version 1.0.0 — Initial Release</div>
+                                <p>Pinch NetBrowse 1.0 is the first release of the NetBrowse web browser project, developed as part of the Pinch software ecosystem. It aims to bring a classic Windows-inspired browsing experience together with a modern interface.</p>
+                            </div>
+                        </div>
+                        <div class="three-cols">
+                            <div class="col">
+                                <h3>What's New</h3>
+                                <ul>
+                                    <li>Introduced the first version of Pinch NetBrowse.</li>
+                                    <li>Established the browser's initial user interface and project structure.</li>
+                                    <li>Began development of a modern browsing experience inspired by classic Windows design.</li>
+                                    <li>Prepared the foundation for future browser features and improvements.</li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <h3>Planned Features</h3>
+                                <ul>
+                                    <li>Ad blocking support.</li>
+                                    <li>Improved browsing security and privacy controls.</li>
+                                    <li>Customizable new tab page.</li>
+                                    <li>Error pages for unavailable websites and connection failures.</li>
+                                    <li>Media playback support.</li>
+                                    <li>Additional interface customization.</li>
+                                    <li>Further performance and stability improvements.</li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <h3>Important Notes</h3>
+                                <ul>
+                                    <li>This is the initial release of the project.</li>
+                                    <li>Features may be incomplete or subject to change.</li>
+                                    <li>Compatibility and stability depend on the current implementation.</li>
+                                    <li>Do not use this release to store sensitive information unless the relevant security features have been implemented and tested.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================= SECURITY PAGE ================= -->
+                    <div id="page-security" class="page">
+                        <div class="banner-area">
+                            <div class="banner-graphic">🛡️</div>
+                            <div class="banner-text">
+                                <h1>Security Advisor</h1>
+                                <p>Your safety is our top priority. PINCH NetBrowse is built with multiple layers of defense.</p>
+                            </div>
+                        </div>
+                        <h3 style="color:#000080; margin-bottom:10px;">Built-in Protection</h3>
+                        <ul>
+                            <li><b>HTTPS Validation:</b> We never bypass or ignore invalid SSL certificates.</li>
+                            <li><b>Download Scanning:</b> Dangerous extensions are flagged, and SHA-256 hashes are calculated.</li>
+                            <li><b>AdBlocker &amp; Anti-Tracking:</b> Block malicious ads and third-party trackers automatically.</li>
+                            <li><b>Profile Isolation:</b> Cookies, cache, and history are strictly separated between profiles.</li>
+                            <li><b>Incognito Mode:</b> Leave no trace of your browsing history on the local machine.</li>
+                        </ul>
+                        <br>
+                        <p>If you encounter a security warning, it is highly recommended that you heed it. PINCH NetBrowse will never download or execute files without your explicit consent.</p>
+                    </div>
+
+                    <!-- ================= SUPPORT PAGE ================= -->
+                    <div id="page-support" class="page">
+                        <div class="banner-area">
+                            <div class="banner-graphic">❓</div>
+                            <div class="banner-text">
+                                <h1>Support &amp; FAQs</h1>
+                                <p>Need help? We've got you covered.</p>
+                            </div>
+                        </div>
+                        <h3 style="color:#000080; margin-bottom:10px;">Frequently Asked Questions</h3>
+                        <p><b>Q: Why does the browser look old?</b></p>
+                        <p>A: PINCH NetBrowse was intentionally designed to replicate the classic Windows 98/2000 look while running on top of the modern Qt WebEngine.</p>
+                        <br>
+                        <p><b>Q: How do I block ads on a specific site?</b></p>
+                        <p>A: Click the Shield icon in the toolbar, or go to Settings -> AdBlocker and add the domain to the allowlist.</p>
+                        <br>
+                        <p><b>Q: Where are my downloads saved?</b></p>
+                        <p>A: By default, they go to your system's Downloads folder. You can change this in Settings -> Downloads.</p>
+                        <br>
+                        <p><b>Q: The browser is slow, how can I fix it?</b></p>
+                        <p>A: Ensure you have hardware acceleration enabled. If you still have issues, you may need to clear the cache via Tools -> Clear Cache.</p>
+                    </div>
+
+                    <!-- ================= ABOUT PAGE ================= -->
+                    <div id="page-about" class="page">
+                        <div class="banner-area">
+                            <div class="banner-graphic">ℹ️</div>
+                            <div class="banner-text">
+                                <h1>About PINCH NetBrowse</h1>
+                                <p>The story behind the browser.</p>
+                            </div>
+                        </div>
+                        <p>PINCH NetBrowse is a labor of love, created for the PINCH Neptune operating system. It bridges the gap between the nostalgic user interfaces of the late 1990s and the powerful, modern web standards of today.</p>
+                        <br>
+                        <p>Built entirely in Python using PySide6 and Qt WebEngine, PINCH NetBrowse proves that you don't need to sacrifice functionality for aesthetics. Whether you are researching a paper with our Citation tool, blocking trackers with our AdBlocker, or just browsing your favorite channels, PINCH NetBrowse delivers a uniquely classic experience.</p>
+                        <br>
+                        <p><b>PINCH Corporation</b><br>
+                        "Explore the Web Your Way."</p>
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+
+        <!-- Footer -->
+        <div class="footer">
+            Last updated: Thursday, October 29, 2026<br>
+            © 2026 PINCH Corporation. All rights reserved. <a onclick="showPage('about')">Terms of Use</a>.
+        </div>
+    </div>
+
+    <!-- JavaScript for Page Switching -->
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            var pages = document.querySelectorAll('.page');
+            for (var i = 0; i < pages.length; i++) {
+                pages[i].classList.remove('active');
+            }
+            
+            // Show the selected page
+            var selectedPage = document.getElementById('page-' + pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+            }
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
